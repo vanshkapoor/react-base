@@ -6,7 +6,8 @@ class App extends Component {
   state = {
     person:[
       {name:'khan', age:22},
-      {name:'raj', age:2}
+      {name:'raj', age:2},
+      {name:'sameer', age:232}
     ],
     toggle:false
   }
@@ -32,6 +33,14 @@ class App extends Component {
 
     })
   }
+  deletehandler =(personindex)=>{
+    const persons=this.state.person;
+    persons.splice(personindex,1);
+    this.setState({
+      person:persons
+    });
+
+  }
 
   togglecontenthandler =()=> {
     const showstate = this.state.toggle;
@@ -52,14 +61,13 @@ class App extends Component {
     let persons = null;
     
     if(this.state.toggle === true)
-    {
-      persons = (
-        <div>
-          <Person name="toggling 2.0" age="2"></Person>
-
-        </div>
-      )
-        
+    {  persons = (
+          <div>
+            { this.state.person.map((personn,index) =>{
+              return <Person click = {() => this.deletehandler(index)} name={personn.name} age={personn.age} />
+            })}
+          </div>
+    );       
     }
 
     return (
@@ -67,18 +75,7 @@ class App extends Component {
         <h1> from app.js file</h1>
         <button style={style} onClick={this.switchNameHandler.bind(this,'khannaa')}>switch user</button>
         <button style={style} onClick={this.togglecontenthandler}>toggle</button>
-        
-        {
-          this.state.toggle===true ?
-          <div>
-          <Person name="vansh" age="20">vansh</Person>
-          <Person />
-          <Person name="hero" age="21">hero</Person>
-          <Person name= {this.state.person[1].name}  age={this.state.person[1].age}  />
-          <Person name= {this.state.person[0].name}  age={this.state.person[0].age} click={this.switchNameHandler.bind(this,'harish')} change={this.namechangehandler} /> 
-          </div> : null
-        }
-
+      
 
         {persons}
 
