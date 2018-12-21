@@ -6,3 +6,14 @@
     padding: 16px;
 
 }
+
+/*   without radium 
+
+@media(min-width:500px){
+    .Person{
+        widows: 450px;
+    }
+}
+
+*/
+

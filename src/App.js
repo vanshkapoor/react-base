@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium,{ StyleRoot } from 'radium';
 import Person from './Person/Person.js';
+
 
 class App extends Component {
   state = {
@@ -43,6 +45,7 @@ class App extends Component {
 
     })
   }
+  
   deletehandler =(personindex)=>{
     const persons=this.state.person.slice();
     persons.splice(personindex,1);
@@ -64,14 +67,21 @@ class App extends Component {
   render() {
     
     const style={
-      backgroundColor:'steel blue',
+      backgroundColor:'blue',
       padding:'8px',
+      color:'white',
+      ':hover':{
+          backgroundColor:'lightblue',
+          color:'black'
+      }
+
     };
 
     let persons = null;
     
     if(this.state.toggle === true)
-    {  persons = (
+    {
+        persons = (
           <div>
             { this.state.person.map((personn,index) =>{
               return <Person click = {() => this.deletehandler(index)} 
@@ -81,22 +91,45 @@ class App extends Component {
                              change={(event) => this.namechangehandler(event,personn.id)} />
             })}
           </div>
-    );       
+    );  
+
+        style.backgroundColor='black';
+        style[':hover'] = {
+          backgroundColor:'grey',
+          color:'black'
+      }
+
     }
 
-    return (
-      <div className="App">
-        <h1> from app.js file</h1>
-        <button style={style} onClick={this.switchNameHandler.bind(this,'khannaa')}>switch user</button>
-        <button style={style} onClick={this.togglecontenthandler}>toggle</button>
-      
+//    let classes = ['blue', 'bold'].join(' ');
+    var classes=[];
+    if(this.state.person.length <= 2)
+    {
+      classes.push('blue');
+    }
+    if(this.state.person.length <=1)
+    {
+      classes.push('bold');
+    }
+    var classes1 = classes.join(' ');
 
+
+
+    return (
+      <StyleRoot>
+      <div className="App">
+        <h1 className={classes1}> from app.js file</h1>
+
+       <button style={style} key="k1" onClick={this.switchNameHandler.bind(this,'khannaa')}>switch user</button>  
+       <button style={style} key="k2" onClick={this.togglecontenthandler}>toggle</button>
+              
         {persons}
 
 
       </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+export default Radium(App);
